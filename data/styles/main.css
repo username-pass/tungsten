@@ -105,6 +105,9 @@ html {
 
 #appsList {
 	width: 15%;
+	bottom: 5%;
+	position: absolute;
+	height: 2%;
 }
 
 #results {
@@ -113,6 +116,7 @@ html {
 	margin-right: 5px;
 	position: absolute;
 	border-radius: 5px;
+	bottom: 6%;
 }
 
  #windows {

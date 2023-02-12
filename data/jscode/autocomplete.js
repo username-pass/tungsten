@@ -28,7 +28,7 @@ fetch(tungsten.serverURL + '/data/' +'jscode/' + "list.txt").then(function(respo
 		resultsHTML.innerHTML = "";
 		resultsHTML.style.display = "block";
 		for (i = 0; i < data.length; i++) {
-			resultsHTML.innerHTML += "<li>" + data[i] + "\t(<span>"+info[i]+"</span>)"+"</li>";
+			resultsHTML.innerHTML = "<li>" + data[i] + "	(<span>"+info[i]+"</span>)"+"</li>" + resultsHTML.innerHTML;
 		}
 		
 	});
@@ -41,7 +41,7 @@ autocomplete.oninput = function() {
 		results = getResults(userInput);
 		resultsHTML.style.display = "block";
 		for (i = 0; i < results[0].length; i++) {
-			resultsHTML.innerHTML += "<li>" + results[0][i] + "\t(<span>"+results[1][i]+"</span>)"+"</li>";
+			resultsHTML.innerHTML = "<li>" + results[0][i] + "	(<span>"+results[1][i]+"</span>)"+"</li>" + resultsHTML.innerHTML;
 		}
 	}
 };
@@ -53,7 +53,7 @@ autocomplete.addEventListener('keydown', function(e) {
 		results = getResults(userInput);
 		resultsHTML.style.display = "block";
 		for (i = 0; i < results[0].length; i++) {
-			resultsHTML.innerHTML += "<li>" + results[0][i] + "\t(<span>"+results[1][i]+"</span>)"+"</li>";
+			resultsHTML.innerHTML = "<li>" + results[0][i] + "	(<span>"+results[1][i]+"</span>)"+"</li>" + resultsHTML.innerHTML;
 		}
 	}
 	keyp(e, results);

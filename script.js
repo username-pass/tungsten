@@ -1,6 +1,6 @@
 var tungsten = {
-	serverURL: 'https://TungstenServer1.username-pass.repl.co',
-	serverList: ['https://TungstenServer1.username-pass.repl.co', 'https://TungstenServer2.username-pass.repl.co', 'https://TungstenServer3.username-pass.repl.co']
+	serverList: [['https://TungstenServer1.username-pass.repl.co','server1'], ['https://TungstenServer2.username-pass.repl.co','server2'], ['https://TungstenServer3.username-pass.repl.co','server3'], ['https://tungsten.username-pass.repl.co','testserver']],
+	serverURL: 'https://TungstenServer1.username-pass.repl.co'
 };
 tungsten.info = {
 	version: '1.0'
@@ -51,6 +51,7 @@ function removeElement(element, log) {
 }
 
 //make frame
+
 var frame = createElement('div', document.body, 'tungstenframe', '');
 frame.style.width = '100%';
 frame.style.height = '100%';
@@ -79,11 +80,12 @@ function makeElements() {
 	windows.height = '100%';
 	windows.width = '100%';
 	appListContainer = createElement('div', windows, 'appsListContainer', '');
+	
+	resultsL = createElement('ul', appListContainer, 'results', '');
+	resultsL.style.width = '20%';
 	appInput = createElement('input', appListContainer, 'appsList', '');
 	appInput.placeholder = "Select an app...";
 	appInput.autocomplete = "off";
-	resultsL = createElement('ul', appListContainer, 'results', '');
-	resultsL.style.width = '20%';
 	taskbar = createElement('div', frame, 'taskbar', '');
 	taskbar.style.backgroundColor = tungsten.user.settings.taskbar.color;
 
@@ -102,15 +104,14 @@ function makeElements() {
 	dropdown.style.position = 'absolute';
 	dropdown.style.top = '0%';
 	dropdown.style.right = '0%';
-	var options = ['server1', 'server2', 'server3'];
 
 
 
 	console.log(tungsten.serverList);
-	for (var i = 0; i < options.length; i++) {
+	for (var i = 0; i < tungsten.serverList.length; i++) {
 		var option = createElement('option', dropdown, '', '');
-		option.value = tungsten.serverList[i];
-		option.text = 'server' + (i + 1);
+		option.value = tungsten.serverList[i][0];
+		option.text = tungsten.serverList[i][1];
 	}
 
 	dropdown.addEventListener('change', function() {
