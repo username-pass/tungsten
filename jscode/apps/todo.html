@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>To-Do List</title>
+  
+</head>
+<body>
+	
+<script>
+
+    function addToDo() {
+      // Get the To-Do item from the input field
+      var todo = document.querySelector("#todo-item").value;
+
+      // Create a new list item
+      var node = document.createElement("LI");
+      var textnode = document.createTextNode(todo);
+      node.appendChild(textnode);
+
+      // Add the new list item to the To-Do list
+      document.querySelector("#todo-list").appendChild(node);
+
+      // Clear the input field
+      document.querySelector("#todo-item").value = "";
+
+      // Store the To-Do list in local storage
+      localStorage.setItem("todoList", document.querySelector("#todo-list").innerHTML);
+    }
+  </script>
+  <h1>To-Do List</h1>
+  <form>
+    <input type="text" id="todo-item" placeholder="Add a To-Do item">
+    <button type="button" onclick="addToDo()">Add</button>
+  </form>
+  <br>
+  <ul id="todo-list"></ul>
+
+	<script>
+		    // Check if there are any To-Do items in local storage
+    if(localStorage.getItem("todoList")) {
+      document.querySelector("#todo-list").innerHTML = localStorage.getItem("todoList");
+    }
+	</script>
+	
+</body>
+</html>

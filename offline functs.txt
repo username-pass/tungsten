@@ -1,0 +1,530 @@
+var files_old = {
+	styles: {
+		main: {
+			css: `
+			body {
+			  margin: 0;
+			  padding: 0;
+			/*   background-color: #CCC; */
+			
+			}
+			
+			
+			
+			html {
+			  color: #dcdbd8;
+				transition-duration: 0.25s;
+			}
+			
+			.window {
+			  position: absolute;
+			  background-color: #17191a;
+			  border: 1px solid #000;
+			  box-shadow: 2px 2px 2px #888;
+			  overflow: hidden;
+			  resize: both;
+			  border-top-left-radius: 5px;
+			  border-top-right-radius: 5px;
+			  border-bottom-left-radius: 5px;
+			  border-bottom-right-radius: 5px;
+			
+			}
+			
+			.titleBar {
+			  cursor: default;
+			  user-select: none;
+			  background-image: linear-gradient(to left, #002547, #000e1a);
+			  border-top-left-radius: 5px;
+			  border-top-right-radius: 5px;
+			}
+			
+			.title {
+			  top: 0px;
+			  left: 0px;
+			  display: inline-block;
+			  margin-left: 50%;
+			
+			}
+			
+			.button {
+				transition-duration: 0.25s;
+				top: 0px;
+			  right: 10px;
+				display: inline-block;
+				padding-right: 10px;
+			  padding-left: 4px;
+			}
+			.button:hover {
+				transition-duration: 0.25s;
+				background-color: #7d7d7d50;
+				cursor: pointer;
+				border-radius: 5px;
+			  padding-right: 12px;
+			  padding-left: 10px;
+			}
+			.closeBtn {
+			  transition-duration: 0.25s;
+			  top: 0px;
+			  right: 10px;
+			  display: inline-block;
+			  float: right;
+			  
+			  padding-right: 10px;
+			  padding-left: 4px;
+			}
+			.closeBtn:hover {
+			  transition-duration: 0.25s;
+			  background-color: #630000;
+			  cursor: pointer;
+			  
+			  padding-right: 12px;
+			  padding-left: 10px;
+			}
+			.winCont {
+			  top: 10%;
+			  background-color: #17191a;
+			
+			  height: 100%;
+			  /* 	border-bottom-right-radius: 5px; */
+			  border-bottom-left-radius: 5px;
+			
+			}
+			.taskItem {
+				width: 10%;
+				height: 100%;
+				display: inline-block;
+				background-color: #8896a550;
+				font-size: 75%;
+				text-align: center;
+				
+			}
+			
+			#taskbar {
+				position: absolute;
+				width: 100%;
+				height: 10%;
+				bottom: 0%;
+				left: 0%;
+			}
+			
+			#appsList {
+				width: 15%;
+			}
+			
+			#results {
+				background-color: #21252b;
+				padding-right: 5px;
+				margin-right: 5px;
+				position: absolute;
+				border-radius: 5px;
+			}
+			
+			 #windows {
+			/* 		background-image: url(images/bg.png); */
+			} 
+ 		`}
+	},
+	jscode: {
+		main: {
+			js: ``
+		},
+		lib: {
+			js: `
+	 			/*info stuff*/
+				var tungsten = {
+					serverURL: 'https://tungsten.username-pass.repl.co'
+				};
+				tungsten.info = {
+					version: '1.0'
+				};
+				tungsten.user = {
+					username: 'user1',
+					id: 'testID',
+					token: 'temp',
+					settings: {}
+				};
+				
+				/*user stuff*/
+				function getCreds() {
+					let lsc = localStorage.getItem('creds');
+					if (lsc != undefined) {
+						tungsten.user.cred = lsc;
+						login(tungsten.user.cred);
+					} else {
+				
+					}
+				}
+				
+				/*server stuff*/
+				function keepalivePing() {
+					var request = new XMLHttpRequest();
+					var url = "/keepalive";
+					request.open("GET", url);
+					request.setRequestHeader("username", tungsten.user.username);
+					request.setRequestHeader("token", tungsten.user.token);
+					request.send();
+				
+					request.onreadystatechange = function() {
+						if (this.readyState === 4 && this.status === 200) {
+							console.log(this.responseText);
+						}
+					}
+				}
+				
+				
+				/*functions*/
+				
+				function createElement(type, parent, id, clss) {
+					let el = document.createElement(type);
+					el.id = id;
+					el.className = clss;
+					parent.appendChild(el);
+					return el;
+				}
+				
+				function removeElement(element, log) {
+					if (log) {
+						console.log('removed element', element);
+					}
+					element.remove();
+				
+				}
+				
+				function removeWin(id) {
+					let win = document.getElementById(id);
+					let tim = document.getElementById(id + 'taskItem');
+					win.remove();
+					tim.remove();
+				}`
+		},
+		autocomplete: {
+			js: `
+			var data = [];
+			var info = [];
+			var count = 0;
+			var list = "";
+			var toget = "";
+			var url = "/js/";
+			const autocomplete = document.getElementById("appsList");
+			const resultsHTML = document.getElementById("results");
+			const iframe = document.getElementById("frame");
+			fetch(url + "list.txt").then(function(response) {
+				response.text().then(function(text) {
+					var list = text
+					var splist = list.split("\\n");
+					splist.shift();
+					splist = splist.sort();
+					var ltxt = '';
+					//console.log(splist);
+			
+					for (i=0;i<splist.length;i++) {
+						let cur = splist[i].split(';');
+						data.push(cur[0]);
+						info.push(cur[1]);
+						//console.log(cur[0],';',cur[1]);
+					}
+					
+			/*		data = splist;*/
+					resultsHTML.innerHTML = "";
+					resultsHTML.style.display = "block";
+					for (i = 0; i < data.length; i++) {
+						resultsHTML.innerHTML += "<li>" + data[i] + "\\t(<span>"+info[i]+"</span>)"+"</li>";
+					}
+					
+				});
+			});
+			autocomplete.oninput = function() {
+				let results = [];
+				const userInput = this.value;
+				resultsHTML.innerHTML = "";
+				if (userInput.length > 0) {
+					results = getResults(userInput);
+					resultsHTML.style.display = "block";
+					for (i = 0; i < results[0].length; i++) {
+						resultsHTML.innerHTML += "<li>" + results[0][i] + "\\t(<span>"+results[1][i]+"</span>)"+"</li>";
+					}
+				}
+			};
+			autocomplete.addEventListener('keydown', function(e) {
+				let results = [];
+				const userInput = this.value;
+				resultsHTML.innerHTML = "";
+				if (userInput.length > 0) {
+					results = getResults(userInput);
+					resultsHTML.style.display = "block";
+					for (i = 0; i < results[0].length; i++) {
+						resultsHTML.innerHTML += "<li>" + results[0][i] + "\\t(<span>"+results[1][i]+"</span>)"+"</li>";
+					}
+				}
+				keyp(e, results);
+			});
+			
+			function keyp(e, results) {
+				var key = \` \$\{e.code\}\`;
+				if (key == " Enter" || key == " Tab") {
+					var isIn = results[0].includes(autocomplete.value);
+					if (isIn) {
+						submit(autocomplete.value);
+					}
+					autocomplete.value = results[0][0];
+				}
+			}
+			
+			function getResults(input) {
+				const results = [];
+				const infores = []
+				if (input == '' || input == '.' || input == ' ') {
+					//console.log([data,info])
+					return [data,info];
+				}
+				for (i = 0; i < data.length; i++) {
+					if (input === data[i].slice(0, input.length)) {
+						results.push(data[i]);
+						infores.push(info[i]);
+					}
+				}
+				return [results,infores];
+			}
+			
+			function getlist(initial) {
+				let out = [];
+				let a = 0;
+				for (let i = 2; i < initial.length; i = i + 2) {
+					out[a] = initial[i];
+					a++;
+				}
+				return out;
+			}
+			
+			function getMatches(string, regex, index) {
+				index || (index = 1); // default to the first capturing group
+				var matches = [];
+				var match;
+				while (match = regex.exec(string)) {
+					matches.push(match[index]);
+				}
+				return matches;
+			}
+			
+			function submit(value) {
+				let toget = value;
+				toget = url + 'apps/' + toget + ".html";
+				fetch(toget).then(function(response) {
+					response.text().then(function(text) {
+			
+						let regex = /<title>(.+)<\\/title>.+<body>(.+)<\\/body>/gms
+						let title = getMatches(text, regex, 1);
+						let content = getMatches(text, regex, 2);
+			
+						let win = new Window('400px', '300px', title, content, title + Date.now(), 'window1', true, true);
+			
+					});
+				});
+			}
+			`
+		},
+		windows: {
+			js: `
+			function Click(el, callback) {
+			  el.addEventListener("mousedown", e => {
+			    callback(e);
+			  });
+			}
+			
+			var topZIndex = 1;
+			const windowArea = document.getElementById('windows');
+			
+			class Window {
+			  constructor(width, height, title, content, id, clss, resizeable, draggable) {
+			 /*set variables*/
+			    this.width = width;
+			    this.height = height;
+			    this.title = title;
+			    this.content = content;
+			    this.id = id;
+			    this.clss = clss;
+			    this.resizeable = resizeable;
+			 /*create elements*/
+			 /*window object*/
+			    this.winObj = createElement('window', windowArea, this.id, 'window ' + this.clss);
+			    if (this.resizeable) {
+			      this.winObj.style.resizeable = 'both';
+			    }
+			    this.winObj.style.left = '10%';
+			    this.winObj.style.top = '10%';
+			    this.winObj.style.width = this.width;
+			    this.winObj.style.height = this.height;
+			    this.winObj.style.position = 'absolute';
+			    this.winObj.id = this.id;
+			    this.winObj.innerHTML = \`
+					
+				 			<div id='\$\{this.id\}titleBar' class='titleBar' width='100%' height='10%'>
+								<center id='\$\{this.id\}title' class='title' width='90%' height='100%' onclick=''>
+			\$\{this.title\}
+								</center>
+							 
+						    <div id='\$\{this.id\}closeBtn' class='closeBtn button' width='10%' height='10%' >
+						      X
+						    </div>
+						 		<div id='\$\{this.id\}minBtn' class='minBtn button' width='10%' height='10%' style='float:right;' >
+									-
+						    </div>
+						 	</div>
+					    <div id='\$\{this.id\}content' class='winCont' width='100%' height='90%'>
+					      \$\{this.content\}
+					    </div>
+			
+			 		\`;
+			    this.titleBar = document.getElementById(this.id + 'titleBar');
+					if (!draggable) {
+					  this.winObj.classList.add('nodrag');
+					}
+			    this.minBtn = this.winObj.children[0].children[2];
+			    this.closeBtn = this.winObj.children[0].children[1];
+					this.taskParent = document.getElementById('taskbar');
+			    this.taskItem = createElement('button', this.taskParent, this.id + 'taskItem', 'taskItem');
+					this.taskItem.innerText = this.title;
+					
+			
+			    this.minBtn.addEventListener("mousedown", function() {
+			      this.parentElement.parentElement.style.display = 'none';
+			    });
+			    this.closeBtn.addEventListener("mousedown", function() {
+			      removeWin(this.parentElement.parentElement.id)
+						
+			    });
+			
+			    this.makeTaskbar(this.winObj);
+			    this.winObj.style.display = 'initial';
+			
+			
+			
+			  }
+			  makeTaskbar(winobj) {
+			    
+			
+			    function displayToggle(el) {
+			 /*console.log(el.style.display);*/
+			      if (el.style.display == 'none') {
+			        el.style.display = 'initial'
+			      } else {
+			        el.style.display = 'none'
+			      }
+			    }
+			
+			    this.taskItem.addEventListener("mousedown", function(event) {
+			      displayToggle(winobj)
+			    });
+			
+			
+			  }
+			  closeWin() {
+			    this.parent.parent.remove();
+			  }
+			  minWin() {
+			    alert(this.winObj.children[0].children[0]);
+			    this.parent.parent.style.display = 'none';
+			  }
+			  getEl() {
+			    return this.winObj;
+			  }
+			
+			
+			}
+			
+			
+			    let elementtoDrag;
+			    let x2;
+			    let y2;
+			
+			    document.body.addEventListener("mousedown", e => {
+						elementtoDrag = e.target;
+						if (elementtoDrag.classList.contains('titleBar') || elementtoDrag.classList.contains('title')) {
+							
+							if (elementtoDrag.classList.contains('titleBar')) {
+								elementtoDrag = elementtoDrag.parentElement;
+							} else {
+								elementtoDrag = elementtoDrag.parentElement.parentElement;
+							}
+			
+			      x2 = e.clientX - elementtoDrag.offsetLeft;
+			      y2 = e.clientY - elementtoDrag.offsetTop;
+			      topZIndex++;
+			      elementtoDrag.style.zIndex = topZIndex;
+			
+			      document.addEventListener("mousemove", move);
+			      document.addEventListener("mouseup", function() {
+			
+			        document.removeEventListener("mousemove", move);
+			      });
+					}
+			    });
+			
+			    function move(e) {
+			      let x = e.clientX;
+			      let y = e.clientY;
+			
+			      let winTitleBarHeight = 12
+			      if (y2 < winTitleBarHeight) {
+			        elementtoDrag.style.left = x - x2 + "px";
+			        elementtoDrag.style.top = y - y2 + "px";
+			      }
+			
+			    }
+			
+			/* let win = new Window('400px', '300px', 'title', '', 'id', 'window1', true, true);*/
+			
+			`
+		}
+	}
+}
+
+
+var files = {
+	"styles": {
+		"main": {
+		}
+	},
+	"jscode": {
+		"main": {
+		},
+		"lib": {
+		},
+		"autocomplete": {
+		},
+		"windows": {
+		},
+	}
+}
+
+
+async function importFiles (serverURL) {
+	let paths = ["styles","jscode"];
+	let names = [["main.css"],["main.js","lib.js","autocomplete.js","windows.js"]];
+
+	for (i = 0; i<paths.length;i++) {
+		for (f = 0; f<names[i].length; f++) {
+			//import file from server using fetch
+			//add files to files object
+			let path = paths[i];
+			let file = names[i][f];
+			console.log(path,file.split('.')[0],file.split('.')[1])
+			fetch(serverURL + path+ '/' + file).then(function(response) {
+				response.text().then(function(text) {
+					files[path][file.split('.')[0]][file.split('.')[1]] = text;
+					
+					
+				}); 
+			});
+		}
+	}
+
+	
+}
+importFiles('https://Bookmarklet.username-pass.repl.co/').then(function() {
+setTimeout(function () {
+	
+	console.log(files)
+
+},1000);
+});

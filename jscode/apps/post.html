@@ -1,0 +1,24 @@
+<head><title>Post test</title></head>
+<body>
+
+	<button onclick='function post () {var request = new XMLHttpRequest();
+		var url = "/login";
+		
+		request.open("GET", url);
+		request.setRequestHeader("username", prompt("username","user1")/*prompt("username?")*/);
+		request.setRequestHeader("password", prompt("password","password")/*prompt("password?")*/);
+		request.send();
+		
+		request.onreadystatechange = function() {
+		if (this.readyState === 4 && this.status === 200) {
+			document.getElementById("out").innerHTML = this.responseText;
+			console.log(this.responseText);
+			tungsten.user.token = this.responseText.split(";")[1];
+			console.log(tungsten.user.token);
+			setInterval(function() { keepalivePing(); }, 1000);
+			//setInterval(keepalivePing(),1000);
+		}
+		};}post()
+		'>login</button>
+		<div id='out'></div>
+</body>

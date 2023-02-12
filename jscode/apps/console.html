@@ -1,0 +1,5 @@
+<head><title>console</title></head>
+<body>
+	<button onclick='javascript:(    () => {        var script = document.createElement("script");        script.src = "//cdn.jsdelivr.net/npm/eruda";        document.body.appendChild(script);        script.onload = (() => eruda.init()); removeWin(this.parentElement.parentElement.id);    })()'>eruda</button>
+	<button onclick='function inspect () {var x = document.createElement("script"); x.src = "https://cdn.jsdelivr.net/gh/SnowLord7/devconsole@master/main.js"; x.onload = alert("Loaded Developer Console!"); document.head.appendChild(x); } inspect(); removeWin(this.parentElement.parentElement.id);'>snowLord</button>
+</body>

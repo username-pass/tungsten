@@ -1,0 +1,63 @@
+<html>
+  <head>
+    <title>Calculator</title>
+  </head>
+  <body>
+		<style>
+  .calculatorForm {
+    width: 380px;
+    margin: 10px auto;
+    text-align: center;
+    padding: 20px;
+		top: 0px;
+		position: absolute;
+  }
+
+  .calcText {
+    width: 100%;
+    height: 30px;
+    font-size: 14px;
+    text-align: right;
+    padding-right: 20px;
+    border: 1px solid gray;
+    margin-top: 20px;
+  }
+
+  .calcButton {
+    width: 40px;
+    height: 40px;
+    font-size: 14px;
+    margin: 5px;
+  }
+</style>
+
+
+
+
+  <center style='font-size: 200%;'>Calculator</center>
+    <form class="calculatorForm">
+      <input type="text"  class="calcText" id="display" disabled />
+      <br><br>
+      <input type="button"  class="calcButton" value="1" onclick="document.getElementById('display').value+='1'"/>
+      <input type="button"  class="calcButton" value="2" onclick="document.getElementById('display').value+='2'"/>
+      <input type="button"  class="calcButton" value="3" onclick="document.getElementById('display').value+='3'"/>
+      <input type="button"  class="calcButton" value="+" onclick="document.getElementById('display').value+='+'"/>
+      <br>
+      <input type="button"  class="calcButton" value="4" onclick="document.getElementById('display').value+='4'"/>
+      <input type="button"  class="calcButton" value="5" onclick="document.getElementById('display').value+='5'"/>
+      <input type="button"  class="calcButton" value="6" onclick="document.getElementById('display').value+='6'"/>
+      <input type="button"  class="calcButton" value="-" onclick="document.getElementById('display').value+='-'"/>
+      <br>
+      <input type="button"  class="calcButton" value="7" onclick="document.getElementById('display').value+='7'"/>
+      <input type="button"  class="calcButton" value="8" onclick="document.getElementById('display').value+='8'"/>
+      <input type="button"  class="calcButton" value="9" onclick="document.getElementById('display').value+='9'"/>
+      <input type="button"  class="calcButton" value="*" onclick="document.getElementById('display').value+='*'"/>
+      <br>
+      <input type="button"  class="calcButton" value="c" onclick="document.getElementById('display').value=''"/>
+      <input type="button"  class="calcButton" value="0" onclick="document.getElementById('display').value+='0'"/>
+      <input type="button"  class="calcButton" value="=" onclick="document.getElementById('display').value=eval(document.getElementById('display').value)"/>
+      <input type="button"  class="calcButton" value="/" onclick="document.getElementById('display').value+='/'"/>
+      <br>
+    </form>
+  </body>
+</html>
