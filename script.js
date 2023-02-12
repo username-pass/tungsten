@@ -55,7 +55,7 @@ function removeElement(element, log) {
 var frame = createElement('div', document.body, 'tungstenframe', '');
 frame.style.width = '100%';
 frame.style.height = '100%';
-frame.style.position = 'absolute';
+frame.style.position = 'fixed';
 frame.style.top = '0%';
 frame.style.right = '0%';
 frame.style.backgroundColor = tungsten.user.settings.background.color;
