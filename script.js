@@ -1,7 +1,7 @@
 var tungsten = {
 	serverList: [['https://TungstenServer1.username-pass.repl.co','server1'], ['https://TungstenServer2.username-pass.repl.co','server2'], ['https://TungstenServer3.username-pass.repl.co','server3'], ['https://tungsten.username-pass.repl.co','testserver']],
 	serverURL: 'https://TungstenServer1.username-pass.repl.co'
-};
+}; 
 tungsten.info = {
 	version: '1.0'
 };
@@ -55,9 +55,11 @@ function removeElement(element, log) {
 var frame = createElement('div', document.body, 'tungstenframe', '');
 frame.style.width = '100%';
 frame.style.height = '100%';
-frame.style.position = 'fixed';
+frame.style.position = 'absolute';
 frame.style.top = '0%';
 frame.style.right = '0%';
+frame.style.marginTop = '0%';
+frame.style.zIndex = '9999';
 frame.style.backgroundColor = tungsten.user.settings.background.color;
 frame.style.backgroundImage = `url(${tungsten.user.settings.background.image})`;
 frame.style.backgroundRepeat = 'no-repeat';
