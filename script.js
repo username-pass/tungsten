@@ -1,5 +1,5 @@
 var tungsten = {
-	serverList: [['https://TungstenServer1.username-pass.repl.co','server1'], ['https://TungstenServer2.username-pass.repl.co','server2'], ['https://TungstenServer3.username-pass.repl.co','server3'], ['https://tungsten.username-pass.repl.co','testserver']],
+	serverList: [['https://TungstenServer1.username-pass.repl.co','server1'], ['https://TungstenServer2.username-pass.repl.co','server2'], ['https://TungstenServer3.username-pass.repl.co','server3'], ['https://tungsten.username-pass.repl.co','testserver'],['https://tungstenserver1.cyclic.app/','testserver cyclic']],
 	serverURL: 'https://TungstenServer1.username-pass.repl.co'
 }; 
 tungsten.info = {
@@ -20,11 +20,24 @@ tungsten.user = {
 		}
 	}
 };
-
+/* 
+URLs:
+https://app.cyclic.sh/#/app/username-pass-tungstenserver/
+https://oncoursemail.github.io/eaglercraft/1.8.html
+*/
 
 function importElement(path, file, parent, type) {
 	let el = document.createElement(type);
-	fetch(tungsten.serverURL + '/data/' + path + '/' + file).then(function(response) {
+	let username = tungsten.user.username;
+	let token = tungsten.user.token;
+	fetch(tungsten.serverURL + '/data/' + path + '/' + file, {
+		  method: 'POST',
+		  headers: {
+		    'Content-Type': 'application/json',
+		  },
+		  body: JSON.stringify({ username, token })
+		})
+		.then(function(response) {
 		response.text().then(function(text) {
 			el.id = file.split('.')[0];
 			el.innerHTML = text;
@@ -68,6 +81,21 @@ frame.style.backgroundSize = tungsten.user.settings.background.size;
 //change this to 0 to make instant!
 frame.style.transitionDuration = '0.25s';
 
+var dropdown = createElement('select', frame, 'server-list', 'dropdown');
+	dropdown.style.position = 'absolute';
+	dropdown.style.top = '0%';
+	dropdown.style.right = '0%';
+	console.log(tungsten.serverList);
+	for (var i = 0; i < tungsten.serverList.length; i++) {
+		var option = createElement('option', dropdown, '', '');
+		option.value = tungsten.serverList[i][0];
+		option.text = tungsten.serverList[i][1];
+	}
+
+	dropdown.addEventListener('change', function() {
+		tungsten.serverURL = dropdown.value;
+	});
+
 //make elements
 var windows;
 var appListContainer;
@@ -84,7 +112,6 @@ function makeElements() {
 	appListContainer = createElement('div', windows, 'appsListContainer', '');
 	
 	resultsL = createElement('ul', appListContainer, 'results', '');
-	resultsL.style.width = '20%';
 	appInput = createElement('input', appListContainer, 'appsList', '');
 	appInput.placeholder = "Select an app...";
 	appInput.autocomplete = "off";
@@ -102,23 +129,7 @@ function makeElements() {
 
 
 
-	var dropdown = createElement('select', frame, 'server-list', 'dropdown');
-	dropdown.style.position = 'absolute';
-	dropdown.style.top = '0%';
-	dropdown.style.right = '0%';
-
-
-
-	console.log(tungsten.serverList);
-	for (var i = 0; i < tungsten.serverList.length; i++) {
-		var option = createElement('option', dropdown, '', '');
-		option.value = tungsten.serverList[i][0];
-		option.text = tungsten.serverList[i][1];
-	}
-
-	dropdown.addEventListener('change', function() {
-		tungsten.serverURL = dropdown.value;
-	});
+	
 
 
 
@@ -132,26 +143,35 @@ function loginScreen() {
 		var username = usernameInput.value;
 		var password = passwordInput.value;
 
-		fetch(tungsten.serverURL + '/login', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-					type: 'login',
-					username: username,
-					password: password
-				},
-				body: JSON.stringify({
-					message: 'Login request'
-				})
-			})
-			.then(res => res.json())
-			.then(data => console.log(data))
-			.catch(error => console.error(error));
+		var servers = ['https://TungstenServer1.username-pass.repl.co','1']
+		fetch('https://TungstenServer1.username-pass.repl.co/logininitial', {
+		  method: 'POST',
+		  headers: {
+		    'Content-Type': 'application/json',
+		    'servers': servers
+		  },
+		  body: JSON.stringify({ username, password })
+		})
+		  .then(response => {
+				response.text().then(function(text) {
+					tungsten.user.username = username;
+					tungsten.user.token = text;
+					alert(tungsten.user.token);
+					removeElement(loginBox, false);
+					makeElements();
+				});
+		    if (response.ok) {
+		      console.log('Login successful!');
+					
+		      // do something here, like redirect to a new page
+		    } else {
+		      console.log('Login failed.');
+		    }
+		  })
+		  .catch(error => console.error('Error:', error));
 
 
 
-		removeElement(loginBox, false);
-		makeElements();
 		return true;
 	}
 	let loginBox = createElement('div', frame, 'loginScreen', 'loginScreen');

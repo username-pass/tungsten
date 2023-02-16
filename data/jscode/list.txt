@@ -5,3 +5,4 @@ console;shows dev console
 todo;an indev todo app
 proxbrowser;a proxy hub, talk to a dev to add yours
 calculator;a calculator app
+inject0r;for all those other features

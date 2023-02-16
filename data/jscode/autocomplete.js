@@ -4,10 +4,21 @@ var info = [];
 var count = 0;
 var list = "";
 var toget = "";
+var username = tungsten.user.username;
+var token = tungsten.user.token;
 const autocomplete = document.getElementById("appsList");
 const resultsHTML = document.getElementById("results");
 const iframe = document.getElementById("frame");
-fetch(tungsten.serverURL + '/data/' +'jscode/' + "list.txt").then(function(response) {
+
+
+
+fetch(tungsten.serverURL + '/data/' +'jscode/' + "list.txt", {
+		  method: 'POST',
+		  headers: {
+		    'Content-Type': 'application/json',
+		  },
+		  body: JSON.stringify({ username, token })
+		}).then(function(response) {
 	response.text().then(function(text) {
 		console.log(text);
 		var list = text
@@ -109,7 +120,13 @@ function getMatches(string, regex, index) {
 function submit(value) {
 	let toget = value;
 	toget = tungsten.serverURL + '/data/' +'jscode/' + 'apps/' + toget + ".html";
-	fetch(toget).then(function(response) {
+	fetch(toget, {
+		  method: 'POST',
+		  headers: {
+		    'Content-Type': 'application/json',
+		  },
+		  body: JSON.stringify({ username, token })
+		}).then(function(response) {
 		response.text().then(function(text) {
 
 			let regex = /<title>(.+)<\/title>.+<body>(.+)<\/body>/gms

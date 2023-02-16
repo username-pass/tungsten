@@ -2,6 +2,11 @@
 	<title>alert</title>
 </head>
 <body>
-	<button onclick='prompt(JSON.stringify(tungsten),window.location)'>click me</button>
+	<button onclick='prompt(JSON.stringify(tungsten,null,"  "),window.location)'>click me</button>
+	
 	<h1>Heading</h1>
+	<span id='inf'></span>
+	<button onclick =
+		'document.getElementById("inf").innerText = JSON.stringify(tungsten,null,"  ");'>click me!
+	</button>
 </body>
